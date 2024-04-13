@@ -42,7 +42,7 @@ export async function setupPlaygroundPage(port: string) {
   const page = await browser.newPage()
 
   await page.goto(
-    buildLocalUrl(port, `/playground?secret=${playwrightEnv.DRAFTMODE_SECRET}`)
+    buildLocalUrl(port, `/playground?secret=${playwrightEnv.DRAFTMODE_SECRET}`),
   )
 
   await expect(page.getByText("Welcome To The Playground.")).toBeVisible()
@@ -75,14 +75,14 @@ export const setupNextServer = async () => {
 
 export const setupMockExample = async (
   requestInterceptor: SetupServer,
-  page: Page
+  page: Page,
 ) => {
   const example = exampleGenerator()
 
   requestInterceptor.use(
     http.get(ExampleService.createUrl("/examples"), () =>
-      HttpResponse.json([example])
-    )
+      HttpResponse.json([example]),
+    ),
   )
 
   await page.goto("/examples")

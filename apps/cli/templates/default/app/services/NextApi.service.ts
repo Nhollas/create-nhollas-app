@@ -55,7 +55,7 @@ const NextApiService = (): INextApiService => ({
     try {
       const response = await NextApiClient.instance.post(
         `/example/duplicate`,
-        example
+        example,
       )
 
       return response.data

@@ -6,7 +6,7 @@ import { withValidation } from "@/app/lib/api"
 export const PUT = withValidation(
   async (request, updatedExample) =>
     await updateExampleRequest(request, updatedExample),
-  exampleSchema
+  exampleSchema,
 )
 
 async function updateExampleRequest(request: Request, example: Example) {
