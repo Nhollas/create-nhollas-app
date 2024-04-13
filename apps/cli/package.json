@@ -48,12 +48,10 @@
     "prompts": "2.4.2",
     "tar": "6.1.15",
     "update-check": "1.5.4",
-    "validate-npm-package-name": "3.0.0"
+    "validate-npm-package-name": "3.0.0",
+    "turbo": "^1.13.2"
   },
   "engines": {
     "node": ">=18.17.0"
-  },
-  "dependencies": {
-    "turbo": "^1.13.2"
   }
 }
