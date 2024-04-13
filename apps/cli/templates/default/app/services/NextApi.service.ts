@@ -26,10 +26,9 @@ const NextApiService = (): INextApiService => ({
   createUrl(path: string) {
     return NextApiClient.createUrl(path)
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async deleteExample(exampleId: string) {
     try {
-      await NextApiClient.instance.delete(`/example`)
+      await NextApiClient.instance.delete(`/example/${exampleId}`)
     } catch (error) {
       return Promise.reject(error)
     }

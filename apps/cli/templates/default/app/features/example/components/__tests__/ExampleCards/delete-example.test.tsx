@@ -12,8 +12,9 @@ it("Successfully deleting an example:", async () => {
   const exampleToDelete = exampleGenerator()
 
   server.use(
-    http.delete(NextApiService.createUrl(`/example`), () =>
-      HttpResponse.json({}, { status: 200 }),
+    http.delete(
+      NextApiService.createUrl(`/example/${exampleToDelete.id}`),
+      () => HttpResponse.json({}, { status: 200 }),
     ),
     http.get(NextApiService.createUrl("/examples"), () =>
       HttpResponse.json([exampleToDelete]),

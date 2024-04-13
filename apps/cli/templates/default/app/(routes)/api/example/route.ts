@@ -30,9 +30,3 @@ async function updateExampleRequest(request: Request, example: Example) {
       }
     })
 }
-
-export function DELETE() {
-  return new Response("Ok", {
-    status: 200,
-  })
-}

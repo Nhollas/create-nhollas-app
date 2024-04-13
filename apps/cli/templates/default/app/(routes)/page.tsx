@@ -7,7 +7,7 @@ export default async function Home() {
       <HomeCard />
       <FeatureFlag
         flag="exampleFlag"
-        defaultValue={12}
+        defaultValue={false}
         render={(value) =>
           value ? (
             <h1>Feature Flag Is Enabled 0_0</h1>
