@@ -13,7 +13,7 @@ export function HomeCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Nextjs Starter Template</CardTitle>
+        <CardTitle>Create Nhollas App</CardTitle>
         <CardDescription>
           Start building your project without faff.
         </CardDescription>

@@ -15,7 +15,7 @@ test("We can view our home page", async ({ page }) => {
   await page.goto("/")
 
   await expect(
-    page.getByRole("heading", { name: "Nextjs Starter Template" }),
+    page.getByRole("heading", { name: "Create Nhollas App" })
   ).toBeVisible()
 
   await expect(page.getByText("Feature Flag Is Enabled 0_0")).toBeVisible()
