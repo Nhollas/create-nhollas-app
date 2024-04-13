@@ -92,9 +92,9 @@ export const installTemplate = async ({
     (await fs.readFile(tsconfigFile, "utf8"))
       .replace(
         `"@/*": ["./*"]`,
-        srcDir ? `"@/*": ["./src/*"]` : `"@/*": ["./*"]`
+        srcDir ? `"@/*": ["./src/*"]` : `"@/*": ["./*"]`,
       )
-      .replace(`"@/*":`, `"${importAlias}":`)
+      .replace(`"@/*":`, `"${importAlias}":`),
   )
 
   // update import alias in any files if not using the default
@@ -118,12 +118,12 @@ export const installTemplate = async ({
             filePath,
             (await fs.readFile(filePath, "utf8")).replace(
               new RegExp(`@/`, "g"),
-              `${importAlias.replace(/\*/g, "")}`
-            )
+              `${importAlias.replace(/\*/g, "")}`,
+            ),
           )
         }
         await writeSema.release()
-      })
+      }),
     )
 
     const vitestConfigFile = path.join(root, "vitest.config.mts")
@@ -133,8 +133,8 @@ export const installTemplate = async ({
       vitestConfigFile,
       (await fs.readFile(vitestConfigFile, "utf8")).replace(
         `find: "@"`,
-        `find: "${importAlias.slice(0, -2)}"`
-      )
+        `find: "${importAlias.slice(0, -2)}"`,
+      ),
     )
   }
 
@@ -149,7 +149,7 @@ export const installTemplate = async ({
               throw err
             }
           })
-      })
+      }),
     )
 
     // Change components.json     "css": "app/globals.css",
@@ -160,8 +160,8 @@ export const installTemplate = async ({
       componentsFile,
       (await fs.readFile(componentsFile, "utf8")).replace(
         `"css": "app/globals.css"`,
-        `"css": "src/app/globals.css"`
-      )
+        `"css": "src/app/globals.css"`,
+      ),
     )
 
     const vitestConfigFile = path.join(root, "vitest.config.mts")
@@ -170,16 +170,16 @@ export const installTemplate = async ({
       vitestConfigFile,
       (await fs.readFile(vitestConfigFile, "utf8")).replace(
         `replacement: resolve(__dirname, ".")`,
-        `replacement: resolve(__dirname, "./src")`
-      )
+        `replacement: resolve(__dirname, "./src")`,
+      ),
     )
 
     await fs.writeFile(
       vitestConfigFile,
       (await fs.readFile(vitestConfigFile, "utf8")).replace(
         `"app/**/*.test.{ts,tsx}"`,
-        `"src/**/*.test.{ts,tsx}"`
-      )
+        `"src/**/*.test.{ts,tsx}"`,
+      ),
     )
 
     // // Change the `Get started by editing pages/index` / `app/page` to include `src`
@@ -198,8 +198,8 @@ export const installTemplate = async ({
       tailwindConfigFile,
       (await fs.readFile(tailwindConfigFile, "utf8")).replace(
         /\.\/(\w+)\/\*\*\/\*\.\{js,ts,jsx,tsx,mdx\}/g,
-        "./src/$1/**/*.{js,ts,jsx,tsx,mdx}"
-      )
+        "./src/$1/**/*.{js,ts,jsx,tsx,mdx}",
+      ),
     )
 
     // const jestConfigPath = path.join(root, "jest.config.mjs");
@@ -222,25 +222,25 @@ export const installTemplate = async ({
     const playwrightConfigPath = path.join(root, "playwright.config.ts")
     let playwrightConfigContent = await fs.readFile(
       playwrightConfigPath,
-      "utf-8"
+      "utf-8",
     )
 
     // Replace the testDir property
     playwrightConfigContent = playwrightConfigContent.replace(
       `testDir: "./playwright"`,
-      `testDir: "./src/playwright"`
+      `testDir: "./src/playwright"`,
     )
 
     // Replace the globalSetup property
     playwrightConfigContent = playwrightConfigContent.replace(
       `globalSetup: require.resolve("./playwright/global-setup.ts")`,
-      `globalSetup: require.resolve("./src/playwright/global-setup.ts")`
+      `globalSetup: require.resolve("./src/playwright/global-setup.ts")`,
     )
 
     // Replace the globalTeardown property
     playwrightConfigContent = playwrightConfigContent.replace(
       `globalTeardown: require.resolve("./playwright/global-teardown.ts")`,
-      `globalTeardown: require.resolve("./src/playwright/global-teardown.ts")`
+      `globalTeardown: require.resolve("./src/playwright/global-teardown.ts")`,
     )
 
     // Write the updated content back to the playwright config file
@@ -254,8 +254,8 @@ export const installTemplate = async ({
       playwrightSetupPath,
       (await fs.readFile(playwrightSetupPath, "utf8")).replace(
         `"playwright/state"`,
-        `"src/playwright/state"`
-      )
+        `"src/playwright/state"`,
+      ),
     )
 
     // Read the .eslintignore file
@@ -371,9 +371,6 @@ export const installTemplate = async ({
       undici: "^6.11.1",
       vitest: "^1.4.0",
     },
-    optionalDependencies: {
-      "@rollup/rollup-linux-x64-gnu": "4.6.1",
-    },
   }
 
   const devDeps = Object.keys(packageJson.devDependencies).length
@@ -381,7 +378,7 @@ export const installTemplate = async ({
 
   await fs.writeFile(
     path.join(root, "package.json"),
-    JSON.stringify(packageJson, null, 2) + os.EOL
+    JSON.stringify(packageJson, null, 2) + os.EOL,
   )
 
   console.log("\nInstalling dependencies:")
