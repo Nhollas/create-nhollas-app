@@ -8,6 +8,6 @@ const sdk = new NodeSDK({
   resource: new Resource({
     [SEMRESATTRS_SERVICE_NAME]: "next-app",
   }),
-  spanProcessor: new SimpleSpanProcessor(new OTLPTraceExporter()),
+  spanProcessors: [new SimpleSpanProcessor(new OTLPTraceExporter())],
 })
 sdk.start()

@@ -309,7 +309,7 @@ export const installTemplate = async ({
       "@launchdarkly/node-server-sdk": "^9.2.2",
       "@opentelemetry/exporter-trace-otlp-http": "^0.50.0",
       "@opentelemetry/resources": "^1.23.0",
-      "@opentelemetry/sdk-node": "^0.50.0",
+      "@opentelemetry/sdk-node": "^0.51.1",
       "@opentelemetry/sdk-trace-node": "^1.23.0",
       "@opentelemetry/semantic-conventions": "^1.23.0",
       "@radix-ui/react-alert-dialog": "^1.0.5",
