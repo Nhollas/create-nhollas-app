@@ -30,9 +30,6 @@ export default defineConfig({
   use: {
     trace: "on-first-retry",
   },
-  globalSetup: require.resolve("./src/playwright/global-setup.ts"),
-  globalTeardown: require.resolve("./src/playwright/global-teardown.ts"),
-
   /* Configure projects for major browsers */
   projects: [
     // Setup project

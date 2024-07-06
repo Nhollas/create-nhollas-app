@@ -1,32 +1,70 @@
-import { Page, test as base } from "@playwright/test"
+import { Page, Route, test as base } from "@playwright/test"
 import { type SetupServer } from "msw/node"
 
+import { env } from "@/app/lib/env"
 import { server } from "@/test/server"
 
 import { setupNextServer } from "../setup"
-import { readAuthState } from "../state"
-import { buildLocalUrl, overrideStateOrigin, playwrightEnv } from "../utils"
+import { buildLocalUrl, createTestUtils } from "../utils"
 
-const { DRAFTMODE_SECRET } = playwrightEnv
+const { DRAFTMODE_SECRET } = env
 
-export const test = base.extend<
-  {
-    revalidatePath: (page: Page, path: string) => Promise<void>
-  },
-  {
-    port: string
-    requestInterceptor: SetupServer
-  }
->({
+export const test = base.extend<{
+  utils: ReturnType<typeof createTestUtils>
+  port: string
+  serverRequestInterceptor: SetupServer
+  interceptBrowserRequest: (
+    url: string | RegExp,
+    options: Parameters<Route["fulfill"]>[0],
+  ) => Promise<void>
+  revalidatePath: (page: Page, path: string) => Promise<void>
+}>({
   baseURL: async ({ port }, use) => {
     await use(buildLocalUrl(port))
   },
-  storageState: async ({ port }, use) => {
-    const authState = await readAuthState()
+  utils: async ({ page }, use) => {
+    const u = createTestUtils({ page })
 
-    const updatedAuthState = await overrideStateOrigin(authState, port)
+    await use(u)
+  },
+  serverRequestInterceptor: [
+    async ({}, use) => {
+      server.listen({ onUnhandledRequest: "bypass" })
 
-    await use(updatedAuthState)
+      await use(server)
+
+      server.close()
+    },
+    {
+      scope: "test",
+    },
+  ],
+  interceptBrowserRequest: [
+    async ({ page }, use) => {
+      async function interceptBrowserRequest(
+        url: string | RegExp,
+        options: Parameters<Route["fulfill"]>[0],
+      ) {
+        await page.route(url, async (route) => {
+          await route.fulfill(options)
+        })
+      }
+
+      await use(interceptBrowserRequest)
+    },
+    { scope: "test" },
+  ],
+  revalidatePath: async ({ port }, use) => {
+    async function revalidatePath(page: Page, path: string) {
+      await page.goto(
+        buildLocalUrl(
+          port,
+          `/api/revalidatePath?secret=${DRAFTMODE_SECRET}&path=${path}`,
+        ),
+      )
+    }
+
+    await use(revalidatePath)
   },
   port: [
     async ({}, use) => {
@@ -34,33 +72,8 @@ export const test = base.extend<
 
       await use(port)
     },
-    { auto: true, scope: "worker" },
+    { auto: true, scope: "test" },
   ],
-  requestInterceptor: [
-    async ({}, use) => {
-      server.listen({ onUnhandledRequest: "warn" })
-
-      await use(server)
-
-      server.resetHandlers()
-      server.close()
-    },
-    {
-      scope: "worker",
-    },
-  ],
-  revalidatePath: async ({ port }, use) => {
-    async function revalidatePath(page: Page, path: string) {
-      await page.goto(
-        buildLocalUrl(
-          port,
-          `/api/revalidate?secret=${DRAFTMODE_SECRET}&path=${path}`,
-        ),
-      )
-    }
-
-    await use(revalidatePath)
-  },
 })
 
 export default test

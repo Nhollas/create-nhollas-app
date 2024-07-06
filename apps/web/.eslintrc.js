@@ -2,21 +2,21 @@ module.exports = {
   root: true,
   env: {
     node: true,
-    es2021: true,
-    browser: true,
+    es6: true,
   },
-  parserOptions: { ecmaVersion: 8, sourceType: "module" },
-  extends: ["eslint:recommended", "next"],
-  settings: {
-    react: { version: "detect" },
-    "import/resolver": {
-      typescript: {},
-    },
-  },
+  parserOptions: { ecmaVersion: "latest", sourceType: "module" },
+  ignorePatterns: ["node_modules/*"],
+  extends: ["eslint:recommended", "next/core-web-vitals"],
   overrides: [
     {
       files: ["**/*.ts", "**/*.tsx"],
       parser: "@typescript-eslint/parser",
+      settings: {
+        react: { version: "detect" },
+        "import/resolver": {
+          typescript: {},
+        },
+      },
       env: {
         browser: true,
         node: true,
@@ -32,15 +32,25 @@ module.exports = {
         "plugin:react-hooks/recommended",
         "plugin:jsx-a11y/recommended",
         "plugin:prettier/recommended",
+        "plugin:tailwindcss/recommended",
+        "plugin:vitest/legacy-recommended",
       ],
       rules: {
         "no-restricted-imports": [
           "error",
           {
-            patterns: ["@/features/*/*"],
+            patterns: [
+              {
+                group: ["@/app/features/*/*"],
+                message:
+                  "Please import from the root @features folder (e.g. @features/ui instead of @features/ui/button).",
+              },
+            ],
           },
         ],
+        "import/no-cycle": "error",
         "linebreak-style": ["error", "unix"],
+        "react/prop-types": "off",
         "import/order": [
           "error",
           {
@@ -57,11 +67,17 @@ module.exports = {
             alphabetize: { order: "asc", caseInsensitive: true },
           },
         ],
-        "@typescript-eslint/no-unused-vars": ["error"],
         "no-empty-pattern": "off",
-        "react/react-in-jsx-scope": "off",
+        "import/default": "off",
+        "import/no-named-as-default-member": "off",
         "import/no-named-as-default": "off",
-        "@typescript-eslint/no-explicit-any": "off",
+        "react/react-in-jsx-scope": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/explicit-function-return-type": ["off"],
+        "@typescript-eslint/explicit-module-boundary-types": ["off"],
+        "@typescript-eslint/no-empty-function": ["off"],
+        "@typescript-eslint/no-explicit-any": ["off"],
         "prettier/prettier": ["error", {}, { usePrettierrc: true }],
       },
     },
@@ -71,6 +87,9 @@ module.exports = {
     },
     {
       files: ["*.e2e.ts"],
+      rules: {
+        "playwright/expect-expect": "off",
+      },
       extends: ["plugin:playwright/recommended"],
     },
   ],

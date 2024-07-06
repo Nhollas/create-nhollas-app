@@ -1,20 +1,17 @@
-import { z } from "zod"
+import { Page } from "@playwright/test"
 
 export const buildLocalUrl = (port: string, path: string = "") =>
   `http://localhost:${port}${path}`
 
-export const overrideStateOrigin = async (state: any, port: string) => {
-  // Update the origin to the local server this test is running on.
-  state.origins[0].origin = buildLocalUrl(port)
-
-  return state
+type TestUtilsArgs = {
+  page: Page
 }
+export const createTestUtils = (params: TestUtilsArgs) => {
+  const { page } = params
+  const pageObjects = {}
 
-export const playwrightEnv = z
-  .object({
-    DRAFTMODE_SECRET: z.string(),
-    TEST_ACCOUNT_EMAIL: z.string(),
-    TEST_ACCOUNT_PASSWORD: z.string(),
-    FLAG_SECRET: z.string(),
-  })
-  .parse(process.env)
+  return {
+    po: pageObjects,
+    page,
+  }
+}
