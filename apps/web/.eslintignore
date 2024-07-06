@@ -1,0 +1,7 @@
+playwright.config.ts
+jest.setup.js
+next.config.js
+jest.config.js
+**/components/ui
+jest.polyfills.js
+
