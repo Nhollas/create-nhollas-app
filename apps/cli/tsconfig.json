@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "target": "es2019",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "noEmit": true
   },
   "exclude": ["templates", "dist"]
 }

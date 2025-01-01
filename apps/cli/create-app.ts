@@ -6,7 +6,6 @@ import { tryGitInit } from "./helpers/git"
 import { isFolderEmpty } from "./helpers/is-folder-empty"
 import { getOnline } from "./helpers/is-online"
 import { isWriteable } from "./helpers/is-writeable"
-import type { PackageManager } from "./helpers/get-pkg-manager"
 
 import { installTemplate } from "./templates"
 

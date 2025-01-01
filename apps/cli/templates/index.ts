@@ -1,9 +1,6 @@
 import { install } from "../helpers/install"
 import { copy } from "../helpers/copy"
-
 import path from "path"
-import { bold } from "picocolors"
-
 import { GetTemplateFileArgs, InstallTemplateArgs } from "./types"
 
 /**

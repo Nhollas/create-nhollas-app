@@ -1,5 +1,3 @@
-import { PackageManager } from "../helpers/get-pkg-manager"
-
 export type TemplateType = "default"
 
 export interface GetTemplateFileArgs {

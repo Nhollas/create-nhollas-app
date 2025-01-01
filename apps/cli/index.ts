@@ -1,5 +1,5 @@
-import { cyan, green, red, yellow, bold, blue } from "picocolors"
-import Commander from "commander"
+import { cyan, green, red, bold } from "picocolors"
+import { Command } from "commander"
 import Conf from "conf"
 import path from "path"
 import prompts from "prompts"
@@ -30,7 +30,7 @@ const onPromptState = (state: {
   }
 }
 
-const program = new Commander.Command("create-nhollas-app")
+const program = new Command("create-nhollas-app")
   .version("0.1.0")
   .arguments("<project-directory>")
   .usage(`${green("<project-directory>")} [options]`)
@@ -40,12 +40,12 @@ const program = new Commander.Command("create-nhollas-app")
   .allowUnknownOption()
   .parse(process.argv)
 
-const packageManager = "npm"
-
 async function run(): Promise<void> {
   const conf = new Conf({ projectName: "create-nhollas-app" })
 
-  if (program.resetPreferences) {
+  const options = program.opts()
+
+  if (options.resetPreferences) {
     conf.clear()
     console.log(`Preferences reset successfully`)
     return
@@ -104,7 +104,7 @@ async function run(): Promise<void> {
     process.exit(1)
   }
 
-  if (program.example === true) {
+  if (options.example === true) {
     console.error(
       "Please provide an example name or url, otherwise remove the example option.",
     )
@@ -122,7 +122,7 @@ async function run(): Promise<void> {
     process.exit(1)
   }
 
-  const example = typeof program.example === "string" && program.example.trim()
+  const example = typeof options.example === "string" && options.example.trim()
   const preferences = (conf.get("preferences") || {}) as Record<
     string,
     boolean | string
