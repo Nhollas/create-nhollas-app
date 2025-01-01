@@ -1,6 +1,6 @@
 "use client"
 
-import FrontendTracer from "@/instrumentation.browser"
+import FrontendTracer from "src/instrumentation.browser"
 
 export default function FrontendTracerProvider({
   children,

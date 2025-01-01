@@ -25,6 +25,13 @@ export default tseslint.config(
   tseslint.configs.recommended,
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
+    files: ["**/*.e2e.ts"],
+    rules: {
+      "react-hooks/rules-of-hooks": "off",
+      "react-hooks/exhaustive-deps": "off",
+    },
+  },
+  {
     files: ["**/*.{ts,tsx}"],
     plugins: {
       "jsx-a11y": jsxA11yPlugin,

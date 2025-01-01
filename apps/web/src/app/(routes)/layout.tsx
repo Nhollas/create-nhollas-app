@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import "./globals.css"
-import FrontendTracerProvider from "@/providers/frontend-tracer-provider"
+import FrontendTracerProvider from "@/app/providers/frontend-tracer-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 

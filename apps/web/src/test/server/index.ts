@@ -1,13 +1,10 @@
 import { HttpResponseResolver } from "msw"
 import { setupServer } from "msw/node"
+import isEqual from "lodash.isequal"
 
 import { handlers } from "./handlers"
 
 export const server = setupServer(...handlers)
-
-function isEqual(a: unknown, b: unknown) {
-  return JSON.stringify(a) === JSON.stringify(b)
-}
 
 export function withJsonBody<TExpectedBody>(
   expectedBody: TExpectedBody,
@@ -24,6 +21,10 @@ export function withJsonBody<TExpectedBody>(
     const actualBody = await request.clone().json()
 
     if (!isEqual(actualBody, expectedBody)) {
+      console.error("Request body did not match!", {
+        expectedBody,
+        actualBody,
+      })
       return
     }
 

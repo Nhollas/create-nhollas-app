@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
   },
+  root: ".",
   test: {
     globals: true,
     environment: "jsdom",

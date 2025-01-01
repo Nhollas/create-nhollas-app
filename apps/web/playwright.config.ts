@@ -2,12 +2,16 @@ import path from "path"
 
 import { defineConfig, devices } from "@playwright/test"
 import dotenv from "dotenv"
+import { fileURLToPath } from "url"
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // Alternatively, read from "../my.env" file.
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 dotenv.config({ path: path.resolve(__dirname, ".env.local") })
 
 /**

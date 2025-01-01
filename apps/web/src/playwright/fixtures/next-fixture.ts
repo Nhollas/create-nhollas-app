@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { test as base, Route } from "@playwright/test"
 
 import { server } from "@/test/server"

@@ -1,8 +1,7 @@
 import { z } from "zod"
 
 const envSchema = z.object({
-  DRAFTMODE_SECRET: z.string(),
-  FLAG_SECRET: z.string(),
+  NEXT_PUBLIC_OTEL_COLLECTOR_URL: z.string(),
 })
 
 export const env = envSchema.parse(process.env)

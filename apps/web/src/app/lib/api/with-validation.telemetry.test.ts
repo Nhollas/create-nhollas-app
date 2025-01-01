@@ -1,10 +1,9 @@
 import { SpanStatusCode, trace, Span } from "@opentelemetry/api"
-import { vi, describe, expect, it, beforeEach } from "vitest"
 import { z } from "zod"
 
 import modelFactory from "@/test/model-factory"
 
-import { withValidation } from ".."
+import { withValidation } from "."
 
 vi.mock("@opentelemetry/api")
 

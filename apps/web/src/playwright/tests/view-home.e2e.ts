@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test"
 
-import test from "@/playwright/fixtures/next-fixture"
+import test from "src/playwright/fixtures/next-fixture"
 
 test("We can view our home page", async ({ page }) => {
   await page.goto("/")

@@ -1,6 +1,4 @@
 import { HttpResponse, HttpResponseResolver, http } from "msw"
-import { describe, it, expect, vi } from "vitest"
-
 import { withJsonBody, server } from "./index"
 
 describe("withJsonBody", () => {
