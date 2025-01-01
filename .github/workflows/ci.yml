@@ -28,11 +28,9 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps
-          npm install -g pnpm
 
-      - name: Run prepublishOnly script
-        run: |
-          pnpm prepublishOnly
+      - name: Build CLI
+        run: npm run build
 
       - name: Use CLI to create template
         run: node ./dist/index.js create-nhollas-app

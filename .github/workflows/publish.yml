@@ -26,7 +26,6 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install -g pnpm
 
       - name: Fetch latest release tag
         id: get_release
@@ -35,9 +34,8 @@ jobs:
       - name: Set package version
         run: npm version $RELEASE_TAG --no-git-tag-version
 
-      - name: Run prepublishOnly script
-        run: |
-          pnpm prepublishOnly
+      - name: Build CLI
+        run: npm run build
 
       - name: Publish package
         run: npm publish
