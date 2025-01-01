@@ -46,10 +46,10 @@ jobs:
           vercel link --yes -p create-nhollas-app --token=${{ secrets.VERCEL_TOKEN }}
           vercel env pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Install template dependencies and run validate
+      - name: Install template dependencies and run tests
         run: |
           cd create-nhollas-app
-          npm run validate-and-test
+          npm run validate:test
 
       - name: Deploy to Vercel
         run: |
