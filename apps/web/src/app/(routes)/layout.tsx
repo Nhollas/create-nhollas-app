@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import "./globals.css"
+import FrontendTracerProvider from "@/providers/frontend-tracer-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -15,12 +16,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <main className="mx-auto min-h-screen max-w-6xl space-y-8 p-8 lg:p-16">
-          {children}
-        </main>
-      </body>
-    </html>
+    <FrontendTracerProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <main className="mx-auto min-h-screen max-w-6xl space-y-8 p-8 lg:p-16">
+            {children}
+          </main>
+        </body>
+      </html>
+    </FrontendTracerProvider>
   )
 }

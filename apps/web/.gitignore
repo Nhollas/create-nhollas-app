@@ -10,7 +10,6 @@
 /coverage
 /playwright-report
 /test-results
-**/playwright/state
 
 # next.js
 /.next/
@@ -22,7 +21,6 @@
 # misc
 .DS_Store
 *.pem
-.husky
 
 # debug
 npm-debug.log*

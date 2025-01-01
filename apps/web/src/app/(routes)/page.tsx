@@ -1,6 +1,6 @@
-import { HomeCard } from "@/app/components"
+import { HomeCard } from "@/components"
 
-export default async function Home() {
+export default function Home() {
   return (
     <section className="w-full space-y-8">
       <HomeCard />

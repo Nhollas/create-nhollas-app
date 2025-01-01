@@ -16,7 +16,7 @@ export const setupNextServer = async () => {
       handle(req, res, parsedUrl)
     })
 
-    server.listen((error: any) => {
+    server.listen((error: unknown) => {
       if (error) throw error
       resolve(server)
     })

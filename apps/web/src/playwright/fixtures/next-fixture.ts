@@ -1,24 +1,24 @@
-import { Page, Route, test as base } from "@playwright/test"
-import { type SetupServer } from "msw/node"
+import { test as base, Route } from "@playwright/test"
 
-import { env } from "@/app/lib/env"
 import { server } from "@/test/server"
-
+import { SetupServer } from "msw/node"
 import { setupNextServer } from "../setup"
 import { buildLocalUrl, createTestUtils } from "../utils"
 
-const { DRAFTMODE_SECRET } = env
-
-export const test = base.extend<{
-  utils: ReturnType<typeof createTestUtils>
-  port: string
-  serverRequestInterceptor: SetupServer
-  interceptBrowserRequest: (
-    url: string | RegExp,
-    options: Parameters<Route["fulfill"]>[0],
-  ) => Promise<void>
-  revalidatePath: (page: Page, path: string) => Promise<void>
-}>({
+export const test = base.extend<
+  {
+    utils: ReturnType<typeof createTestUtils>
+    po: ReturnType<typeof createTestUtils>["po"]
+    serverRequestInterceptor: SetupServer
+    interceptBrowserRequest: (
+      url: string | RegExp,
+      options: Parameters<Route["fulfill"]>[0],
+    ) => Promise<void>
+  },
+  {
+    port: string
+  }
+>({
   baseURL: async ({ port }, use) => {
     await use(buildLocalUrl(port))
   },
@@ -27,8 +27,19 @@ export const test = base.extend<{
 
     await use(u)
   },
+  po: async ({ utils }, use) => {
+    await use(utils.po)
+  },
+  port: [
+    async (_, use) => {
+      const port = await setupNextServer()
+
+      await use(port)
+    },
+    { auto: true, scope: "worker" },
+  ],
   serverRequestInterceptor: [
-    async ({}, use) => {
+    async (_, use) => {
       server.listen({ onUnhandledRequest: "bypass" })
 
       await use(server)
@@ -53,26 +64,6 @@ export const test = base.extend<{
       await use(interceptBrowserRequest)
     },
     { scope: "test" },
-  ],
-  revalidatePath: async ({ port }, use) => {
-    async function revalidatePath(page: Page, path: string) {
-      await page.goto(
-        buildLocalUrl(
-          port,
-          `/api/revalidatePath?secret=${DRAFTMODE_SECRET}&path=${path}`,
-        ),
-      )
-    }
-
-    await use(revalidatePath)
-  },
-  port: [
-    async ({}, use) => {
-      const port = await setupNextServer()
-
-      await use(port)
-    },
-    { auto: true, scope: "test" },
   ],
 })
 

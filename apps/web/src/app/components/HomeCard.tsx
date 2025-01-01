@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/app/components/ui"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui"
 
 export function HomeCard() {
   return (

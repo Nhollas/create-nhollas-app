@@ -6,7 +6,7 @@ import { IService } from "."
 //   }),
 // }
 
-interface INextApiService extends IService {}
+type INextApiService = IService
 
 const NextApiService = (): INextApiService => ({
   createUrl: (path) => {

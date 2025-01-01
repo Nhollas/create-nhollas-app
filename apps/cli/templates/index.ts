@@ -24,13 +24,11 @@ export const getTemplateFile = ({
 export const SRC_DIR_NAMES = [
   "app",
   "checkly",
-  "components",
   "playwright",
   "public",
   "test",
   "instrumentation.node.ts",
   "instrumentation.ts",
-  "middleware.ts",
 ]
 
 /**
@@ -46,7 +44,7 @@ export const installTemplate = async ({
 }: InstallTemplateArgs) => {
   console.log(bold(`Using ${packageManager}.`))
 
-  const template = "default"
+  const template = "minimal"
 
   /**
    * Copy the template files to the target directory.
