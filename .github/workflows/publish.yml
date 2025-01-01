@@ -37,7 +37,6 @@ jobs:
 
       - name: Run prepublishOnly script
         run: |
-          npm link typescript
           pnpm prepublishOnly
 
       - name: Publish package

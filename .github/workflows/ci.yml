@@ -32,29 +32,28 @@ jobs:
 
       - name: Run prepublishOnly script
         run: |
-          npm link typescript
           pnpm prepublishOnly
 
       - name: Use CLI to create template
-        run: node ./dist/index.js template --import-alias="@/custom-import/*" --src-dir
+        run: node ./dist/index.js create-nhollas-app
 
       - name: Install vercel CLI
         run: npm install -g vercel
 
       - name: Pull environment variables
         run: |
-          cd template
+          cd create-nhollas-app
           vercel link --yes -p create-nhollas-app --token=${{ secrets.VERCEL_TOKEN }}
           vercel env pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Install template dependencies and run validate
         run: |
-          cd template
+          cd create-nhollas-app
           npm run validate-and-test
 
       - name: Deploy to Vercel
         run: |
-          cd template
+          cd create-nhollas-app
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
