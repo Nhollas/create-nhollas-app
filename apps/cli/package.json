@@ -25,22 +25,15 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@types/cross-spawn": "6.0.0",
+    "@types/cross-spawn": "^6.0.6",
     "@types/node": "^20.14.2",
-    "@types/prompts": "2.4.2",
-    "@types/tar": "6.1.13",
     "@types/validate-npm-package-name": "4.0.2",
-    "ci-info": "4.0.0",
     "commander": "12.1.0",
     "cross-spawn": "7.0.3",
     "fast-glob": "3.3.1",
     "picocolors": "1.0.0",
-    "prettier-plugin-tailwindcss": "0.6.2",
-    "prompts": "2.4.2",
-    "tar": "7.4.3",
     "tsup": "^8.3.5",
     "typescript": "^5",
-    "update-check": "1.5.4",
     "validate-npm-package-name": "5.0.1"
   },
   "engines": {
