@@ -48,6 +48,7 @@
     "prompts": "2.4.2",
     "tar": "6.1.15",
     "turbo": "^1.13.3",
+    "typescript": "^5.7.2",
     "update-check": "1.5.4",
     "validate-npm-package-name": "3.0.0"
   },

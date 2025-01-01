@@ -10,7 +10,6 @@
 /coverage
 /playwright-report
 /test-results
-**/playwright/state
 
 # next.js
 /.next/

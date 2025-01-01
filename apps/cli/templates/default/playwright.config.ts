@@ -2,19 +2,23 @@ import path from "path"
 
 import { defineConfig, devices } from "@playwright/test"
 import dotenv from "dotenv"
+import { fileURLToPath } from "url"
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // Alternatively, read from "../my.env" file.
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 dotenv.config({ path: path.resolve(__dirname, ".env.local") })
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./playwright",
+  testDir: "./src/playwright",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -30,9 +34,6 @@ export default defineConfig({
   use: {
     trace: "on-first-retry",
   },
-  globalSetup: require.resolve("./playwright/global-setup.ts"),
-  globalTeardown: require.resolve("./playwright/global-teardown.ts"),
-
   /* Configure projects for major browsers */
   projects: [
     // Setup project

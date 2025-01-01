@@ -6,12 +6,13 @@ import { defineConfig } from "vitest/config"
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [{ find: "@", replacement: resolve(__dirname, ".") }],
+    alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
   },
+  root: ".",
   test: {
     globals: true,
     environment: "jsdom",
-    include: ["app/**/*.test.{ts,tsx}"],
+    include: ["src/**/*.test.{ts,tsx}"],
     exclude: ["/node_modules/", "/.next/"],
     setupFiles: "./vitest.setup.mts",
     coverage: {

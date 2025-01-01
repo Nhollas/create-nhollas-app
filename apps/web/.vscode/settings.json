@@ -1,8 +1,0 @@
-{
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "files.eol": "\n",
-  "typescript.tsdk": "node_modules/typescript/lib"
-}
