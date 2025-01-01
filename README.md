@@ -1,30 +1,39 @@
 # Create Nhollas App
 
-The easiest way to get started with Next.js is by using `create-nhollas-app`. This CLI tool enables you to quickly start building a new Next.js application, with everything set up for you. To get started, use the following command:
+A custom create-next-app cli tool to quickly bootstrap Next.js applications with the tools, patterns and best practices I follow.
 
-### Interactive
-
-You can create a new project interactively by running:
+## Get Started
 
 ```bash
 npx create-nhollas-app@latest
-# or
-yarn create nhollas-app
-# or
-pnpm create nhollas-app
-# or
-bunx create-nhollas-app
 ```
 
-You will be asked for the name of your project, if you want to use the `src` directory as the root of your project and if you want to alter the default import alias.
+## Development and Release Process
 
-### Why use Create Nhollas App?
+### Previewing Template Changes
 
-`create-nhollas-app` sets up your Next.js project with the following features:
+Pushing changes to the `main` branch will trigger the `CI.yml` GitHub action which will:
 
-- **Automatic TypeScript Configuration**: Next.js is configured to use TypeScript by default, so you don't have to worry about setting it up.
-- **E2E Testing with Playwright**: Your project is set up with Playwright for end-to-end testing.
-- **Intergration Testing with Testing Library**: Your project is set up with Testing Library for integration testing.
-- **Linting with ESLint**: Your project is set up with ESLint for linting.
-- **Formatting with Prettier**: Your project is set up with Prettier for formatting.
-- **Husky and Lint-Staged**: Your project is set up with Husky and Lint-Staged to run ESLint and Prettier and your tests before every commit.
+1. Use the CLI to create a templated project.
+2. Run the tests in the newly created project.
+3. It will then deploy the project to Vercel.
+
+### Publishing a New Version
+
+To publish a new package version of `create-nhollas-app`:
+
+1. Ensure all your changes are merged to the main branch
+2. Go to the GitHub repository release page [here](https://github.com/Nhollas/create-nhollas-app/releases)
+3. Click "Draft a new release"
+4. Give it a title and describe the changes
+5. Create a new tag using semantic versioning (e.g., `1.2.0`)
+6. Publish the release
+
+This will trigger the `publish.yml` GitHub action which will:
+
+1. Sets up a Node.js environment
+2. Installs all dependencies
+3. Extracts the version number from your release tag
+4. Updates the package.json version to match
+5. Builds the package via the prepublishOnly script
+6. Publishes the new version to npm
