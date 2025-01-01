@@ -48,10 +48,6 @@ export const installTemplate = async ({
   const template = "default"
   const templatePath = path.join(__dirname, "templates", template)
 
-  console.log("templatePath", templatePath)
-
-  console.log("root", root)
-
   console.log("Initializing project with template:", template)
 
   /*
