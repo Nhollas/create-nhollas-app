@@ -3,7 +3,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/app/components/ui"
+} from "@/app/components/ui/card"
 
 export function HomeCard() {
   return (

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-empty-pattern */
 import { test as base, Route } from "@playwright/test"
 
 import { server } from "@/test/server"
@@ -32,7 +33,7 @@ export const test = base.extend<
     await use(utils.po)
   },
   port: [
-    async (_, use) => {
+    async ({}, use) => {
       const port = await setupNextServer()
 
       await use(port)
@@ -40,7 +41,7 @@ export const test = base.extend<
     { auto: true, scope: "worker" },
   ],
   serverRequestInterceptor: [
-    async (_, use) => {
+    async ({}, use) => {
       server.listen({ onUnhandledRequest: "bypass" })
 
       await use(server)
