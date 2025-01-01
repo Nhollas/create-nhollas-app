@@ -8,9 +8,14 @@ import {
 } from "@opentelemetry/sdk-trace-node"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
 
+const isTracingDisabled =
+  process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL === "disabled"
+
 export function defaultSpanProcessor(): SpanProcessor {
   const exporter = new OTLPTraceExporter({
-    url: process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
+    url: isTracingDisabled
+      ? undefined
+      : process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
   })
 
   return new BatchSpanProcessor(exporter)
@@ -34,7 +39,7 @@ const sdk = new NodeSDK({
 })
 
 try {
-  if (process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL !== "disabled") {
+  if (!isTracingDisabled) {
     console.info("Starting OpenTelemetry SDK...")
     sdk.start()
     console.info("OpenTelemetry SDK started successfully.")
