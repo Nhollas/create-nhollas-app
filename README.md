@@ -5,8 +5,13 @@ A custom create-next-app cli tool to quickly bootstrap Next.js applications with
 ## Get Started
 
 ```bash
-npx create-nhollas-app@latest
+npx create-nhollas-app@latest <project-name>
 ```
+
+## CLI Options
+
+- `--use-npm` - Explicitly tell the CLI to bootstrap the application using npm.
+- `--use-pnpm` - Explicitly tell the CLI to bootstrap the application using pnpm.
 
 ## Development and Release Process
 
