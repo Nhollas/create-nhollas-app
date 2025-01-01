@@ -12,7 +12,7 @@ npx create-nhollas-app@latest
 
 ### Previewing Template Changes
 
-Pushing changes to the `main` branch will trigger the `CI.yml` GitHub action which will:
+Pushing changes to the `main` branch will trigger the `ci.yml` GitHub action which will:
 
 1. Use the CLI to create a templated project.
 2. Run the tests in the newly created project.
