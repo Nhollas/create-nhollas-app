@@ -1,4 +1,4 @@
-# Create Nhollas App
+![LOGO](logo.png)
 
 A custom create-next-app cli tool to quickly bootstrap Next.js applications with the tools, patterns and best practices I follow.
 
