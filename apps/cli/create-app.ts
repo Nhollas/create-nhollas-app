@@ -5,11 +5,8 @@ import path from "path"
 import { isFolderEmpty } from "./helpers/is-folder-empty"
 import { getOnline } from "./helpers/is-online"
 import { isWriteable } from "./helpers/is-writeable"
-
 import { installTemplate } from "./template"
 import { PackageManager } from "./helpers/get-pkg-manager"
-
-export class DownloadError extends Error {}
 
 export async function createApp({
   appPath,
