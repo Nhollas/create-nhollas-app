@@ -50,12 +50,6 @@ export const installTemplate = async ({
 
   console.log("Initializing project with template:", template)
 
-  /*
-
-    templatePath /Users/nhollas/Documents/Github/create-nhollas-app/apps/cli/dist/default/templates
-    root /Users/nhollas/Documents/Github/create-nhollas-app/apps/cli/dist/my-app
-  */
-
   await copy("**", root, {
     cwd: templatePath,
     rename(name) {
