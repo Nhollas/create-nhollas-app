@@ -17,7 +17,7 @@ import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
 
 const FrontendTracer = () => {
   let resource = new Resource({
-    [ATTR_SERVICE_NAME]: "Nhollas.Create_Next_App.Frontend",
+    [ATTR_SERVICE_NAME]: "Create_Nhollas_App.Frontend",
   })
 
   const detectedResources = detectResourcesSync({

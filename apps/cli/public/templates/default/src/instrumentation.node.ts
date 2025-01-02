@@ -23,7 +23,7 @@ export function defaultSpanProcessor(): SpanProcessor {
 
 const sdk = new NodeSDK({
   resource: new Resource({
-    [ATTR_SERVICE_NAME]: "Nhollas.Create_Next_App.Backend",
+    [ATTR_SERVICE_NAME]: "Create_Nhollas_App.Backend",
   }),
   spanProcessors: [defaultSpanProcessor()],
   instrumentations: [
