@@ -149,9 +149,44 @@ export const installTemplate = async ({
     },
   }
 
+  // Create a package.json file in the new project directory.
   await fs.writeFile(
     path.join(root, "package.json"),
     JSON.stringify(packageJson, null, 2) + os.EOL,
+  )
+
+  // Create docker-compose.yaml file in the new project directory.
+  await fs.writeFile(
+    path.join(root, "infra", "docker-compose.yaml"),
+    `name: ${appName}
+services:
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:latest
+    restart: always
+    ports:
+      - "16686:16686" # UI port
+      - "14250" # Collector port
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.67.0
+    restart: always
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4318:4318" # OTLP HTTP receiver
+    depends_on:
+      - jaeger-all-in-one
+
+  nginx:
+    image: nginx:1.24-alpine
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - otel-collector`,
   )
 
   const devDeps = Object.keys(packageJson.devDependencies).length
