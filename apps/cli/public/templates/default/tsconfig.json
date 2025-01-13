@@ -31,9 +31,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "vitest.setup.mts",
+    "vitest.setup.ts",
     "vitest.config.mts"
   ],
   "exclude": ["node_modules"],
-  "files": ["vitest.setup.mts"]
+  "files": ["vitest.setup.ts"]
 }

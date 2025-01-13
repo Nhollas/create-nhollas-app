@@ -94,6 +94,7 @@ export const installTemplate = async ({
       "validate:test": "npm-run-all validate test",
     },
     dependencies: {
+      "@opentelemetry/api": "^1.9.0",
       "@opentelemetry/auto-instrumentations-node": "^0.55.0",
       "@opentelemetry/context-zone": "^1.30.0",
       "@opentelemetry/core": "^1.30.0",
