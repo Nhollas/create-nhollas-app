@@ -30,8 +30,6 @@ export const copy = async (
 
   const destRelativeToCwd = cwd ? path.resolve(cwd, dest) : dest
 
-  const prefixDotWhitelist = ["vscode"]
-
   const prefixFolderWithDot = (
     dirname: string,
     basename: string,
@@ -49,10 +47,6 @@ export const copy = async (
       const from = cwd ? path.resolve(cwd, p) : p
 
       let to = path.join(destRelativeToCwd, dirname, basename)
-
-      if (prefixDotWhitelist.includes(dirname)) {
-        to = prefixFolderWithDot(dirname, basename, destRelativeToCwd)
-      }
 
       // Ensure the destination directory exists
       await fs.promises.mkdir(path.dirname(to), { recursive: true })

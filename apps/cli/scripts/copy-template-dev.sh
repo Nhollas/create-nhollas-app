@@ -5,7 +5,7 @@ SRC_DIR="$1"
 DEST_DIR="$2"
 
 # Blacklist of folders and files to ignore
-BLACKLIST=("node_modules" ".next" ".env.local" "next-env.d.ts" "package.json" "pnpm-lock.yaml")
+BLACKLIST=("node_modules" ".next" ".env.local" "next-env.d.ts" "package.json" "pnpm-lock.yaml" "docker-compose.yaml")
 
 # Check if source and destination directories are provided
 if [ -z "$SRC_DIR" ] || [ -z "$DEST_DIR" ]; then
@@ -38,6 +38,7 @@ copy_directory() {
     local src="$1"
     local dest="$2"
 
+    shopt -s dotglob  # Include hidden files and folders in globbing
     for item in "$src"/*; do
         local base_item="$(basename "$item")"
         if is_blacklisted "$base_item"; then
@@ -54,6 +55,7 @@ copy_directory() {
             cp "$item" "$dest/"
         fi
     done
+    shopt -u dotglob  # Reset globbing behavior
 }
 
 # Start the copy process

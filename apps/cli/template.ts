@@ -51,24 +51,7 @@ export const installTemplate = async ({
   console.log("Initializing project with template:", template)
 
   await copy("**", root, {
-    cwd: templatePath,
-    rename(name) {
-      switch (name) {
-        case "gitignore":
-        case "gitattributes":
-        case "eslintignore":
-        case "eslintrc.js":
-        case "prettierrc":
-        case "prettierignore":
-        case "env.example":
-        case "vscode": {
-          return `.${name}`
-        }
-        default: {
-          return name
-        }
-      }
-    },
+    cwd: templatePath
   })
 
   /** Create a package.json for the new project and write it to disk. */
