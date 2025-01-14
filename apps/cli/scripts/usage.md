@@ -5,5 +5,5 @@
 To execute the script, use the following command:
 
 ```bash
-./copy-template-dev.sh ../../template-dev ../temp  
+./sync-template-dev.sh ../../template-dev ../public/templates/default
 ```

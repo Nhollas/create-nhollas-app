@@ -19,8 +19,14 @@ if [ ! -d "$SRC_DIR" ]; then
     exit 1
 fi
 
-# Create the destination directory if it doesn't exist
-mkdir -p "$DEST_DIR"
+# Clean target directory if it exists
+if [ -d "$DEST_DIR" ]; then
+    echo "Cleaning target directory..."
+    rm -rf "$DEST_DIR"/*
+else
+    echo "Creating target directory..."
+    mkdir -p "$DEST_DIR"
+fi
 
 # Function to check if a file or directory is blacklisted
 is_blacklisted() {
