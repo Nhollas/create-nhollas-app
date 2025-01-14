@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test"
+import { createHomePageObject } from "./page-objects/home"
 
 export const buildLocalUrl = (port: string, path: string = "") =>
   `http://localhost:${port}${path}`
@@ -8,7 +9,9 @@ type TestUtilsArgs = {
 }
 export const createTestUtils = (params: TestUtilsArgs) => {
   const { page } = params
-  const pageObjects = {}
+  const pageObjects = {
+    homePage: createHomePageObject(params),
+  }
 
   return {
     po: pageObjects,

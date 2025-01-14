@@ -57,6 +57,7 @@ export default tseslint.config(
     plugins: { playwright: playwrightPlugin },
     rules: {
       ...playwrightPlugin.configs.recommended.rules,
+      "playwright/expect-expect": "off",
     },
   },
 )

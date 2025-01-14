@@ -4,7 +4,7 @@ function createMockRequest(overrides?: Partial<Request>): Request {
       return createMockRequest(overrides)
     },
     ...overrides,
-  } as Request satisfies Request
+  } as Request
 
   return mockedRequest
 }
