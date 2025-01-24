@@ -51,7 +51,7 @@ export const installTemplate = async ({
   console.log("Initializing project with template:", template)
 
   await copy("**", root, {
-    cwd: templatePath
+    cwd: templatePath,
   })
 
   /** Create a package.json for the new project and write it to disk. */
@@ -102,6 +102,7 @@ export const installTemplate = async ({
     },
     devDependencies: {
       "@playwright/test": "^1.49.1",
+      "@tailwindcss/postcss": "^4.0.0",
       "@testing-library/jest-dom": "^6.6.3",
       "@testing-library/react": "^16.1.0",
       "@types/lodash.isequal": "^4.5.8",
@@ -109,7 +110,6 @@ export const installTemplate = async ({
       "@types/react": "19.0.2",
       "@types/react-dom": "19.0.2",
       "@vitejs/plugin-react": "^4.3.4",
-      autoprefixer: "^10.4.20",
       dotenv: "^16.4.7",
       eslint: "^9.17.0",
       "eslint-config-next": "^15.1.3",
@@ -126,7 +126,7 @@ export const installTemplate = async ({
       "npm-run-all": "^4.1.5",
       postcss: "^8.4.49",
       prettier: "^3.4.2",
-      tailwindcss: "^3.4.17",
+      tailwindcss: "^4.0.0",
       typescript: "^5.7.2",
       "typescript-eslint": "^8.19.0",
       vitest: "^2.1.8",
