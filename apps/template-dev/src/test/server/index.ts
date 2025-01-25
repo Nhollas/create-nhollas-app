@@ -1,6 +1,6 @@
 import { HttpResponseResolver } from "msw"
 import { setupServer } from "msw/node"
-import isEqual from "lodash.isequal"
+import { isDeepStrictEqual } from "util"
 
 import { handlers } from "./handlers"
 
@@ -20,7 +20,7 @@ export function withJsonBody<TExpectedBody>(
 
     const actualBody = await request.clone().json()
 
-    if (!isEqual(actualBody, expectedBody)) {
+    if (!isDeepStrictEqual(actualBody, expectedBody)) {
       console.error("Request body did not match!", {
         expectedBody,
         actualBody,
