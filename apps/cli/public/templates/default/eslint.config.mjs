@@ -1,5 +1,4 @@
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y"
-import tailwindPlugin from "eslint-plugin-tailwindcss"
 import vitestPlugin from "eslint-plugin-vitest"
 import testingLibrary from "eslint-plugin-testing-library"
 import playwrightPlugin from "eslint-plugin-playwright"
@@ -35,12 +34,10 @@ export default tseslint.config(
     files: ["**/*.{ts,tsx}"],
     plugins: {
       "jsx-a11y": jsxA11yPlugin,
-      tailwindcss: tailwindPlugin,
       prettier: prettierPlugin,
     },
     rules: {
       ...jsxA11yPlugin.configs.recommended.rules,
-      ...tailwindPlugin.configs.recommended.rules,
       ...prettierPlugin.configs.recommended.rules,
     },
   },
