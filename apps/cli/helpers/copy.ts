@@ -30,14 +30,6 @@ export const copy = async (
 
   const destRelativeToCwd = cwd ? path.resolve(cwd, dest) : dest
 
-  const prefixFolderWithDot = (
-    dirname: string,
-    basename: string,
-    destRelativeToCwd: string,
-  ) => {
-    return path.join(destRelativeToCwd, "." + dirname, basename)
-  }
-
   return Promise.all(
     sourceFiles.map(async (p) => {
       const dirname = path.dirname(p)
