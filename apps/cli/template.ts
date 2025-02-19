@@ -1,24 +1,24 @@
-import { install } from "./helpers/install"
-import { copy } from "./helpers/copy"
-import path from "path"
-import { bold, cyan } from "picocolors"
-import fs from "fs/promises"
-import os from "os"
+import { install } from "./helpers/install";
+import { copy } from "./helpers/copy";
+import path from "path";
+import { bold, cyan } from "picocolors";
+import fs from "fs/promises";
+import os from "os";
 
-import { PackageManager } from "./helpers/get-pkg-manager"
+import { PackageManager } from "./helpers/get-pkg-manager";
 
-export type TemplateType = "default"
+export type TemplateType = "default";
 
 export interface GetTemplateFileArgs {
-  template: TemplateType
-  file: string
+  template: TemplateType;
+  file: string;
 }
 
 export interface InstallTemplateArgs {
-  appName: string
-  root: string
-  isOnline: boolean
-  packageManager: PackageManager
+  appName: string;
+  root: string;
+  isOnline: boolean;
+  packageManager: PackageManager;
 }
 
 /**
@@ -28,8 +28,8 @@ export const getTemplateFile = ({
   template,
   file,
 }: GetTemplateFileArgs): string => {
-  return path.join(__dirname, template, file)
-}
+  return path.join(__dirname, template, file);
+};
 
 /**
  * Install a Next.js internal template to a given `root` directory.
@@ -40,19 +40,19 @@ export const installTemplate = async ({
   isOnline,
   packageManager,
 }: InstallTemplateArgs) => {
-  console.log(bold(`Using ${packageManager}.`))
-  console.log()
+  console.log(bold(`Using ${packageManager}.`));
+  console.log();
   /**
    * Copy the template files to the target directory.
    */
-  const template = "default"
-  const templatePath = path.join(__dirname, "templates", template)
+  const template = "default";
+  const templatePath = path.join(__dirname, "templates", template);
 
-  console.log("Initializing project with template:", template)
+  console.log("Initializing project with template:", template);
 
   await copy("**", root, {
     cwd: templatePath,
-  })
+  });
 
   /** Create a package.json for the new project and write it to disk. */
   const packageJson = {
@@ -91,6 +91,7 @@ export const installTemplate = async ({
       "@opentelemetry/semantic-conventions": "^1.28.0",
       "@radix-ui/react-slot": "^1.1.1",
       "class-variance-authority": "^0.7.1",
+      "@tanstack/react-query": "^5.66.7",
       clsx: "^2.1.1",
       "lucide-react": "^0.469.0",
       next: "15.1.3",
@@ -128,13 +129,13 @@ export const installTemplate = async ({
       "typescript-eslint": "^8.19.0",
       vitest: "^2.1.8",
     },
-  }
+  };
 
   // Create a package.json file in the new project directory.
   await fs.writeFile(
     path.join(root, "package.json"),
-    JSON.stringify(packageJson, null, 2) + os.EOL,
-  )
+    JSON.stringify(packageJson, null, 2) + os.EOL
+  );
 
   // Create docker-compose.yaml file in the new project directory.
   await fs.writeFile(
@@ -167,22 +168,22 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - otel-collector`,
-  )
+      - otel-collector`
+  );
 
-  const devDeps = Object.keys(packageJson.devDependencies).length
+  const devDeps = Object.keys(packageJson.devDependencies).length;
 
-  console.log()
-  console.log("\nInstalling dependencies:")
+  console.log();
+  console.log("\nInstalling dependencies:");
   for (const dependency in packageJson.dependencies)
-    console.log(`- ${cyan(dependency)}`)
+    console.log(`- ${cyan(dependency)}`);
 
   if (devDeps) {
-    console.log("\nInstalling devDependencies:")
+    console.log("\nInstalling devDependencies:");
     for (const dependency in packageJson.devDependencies)
-      console.log(`- ${cyan(dependency)}`)
+      console.log(`- ${cyan(dependency)}`);
   }
-  console.log()
+  console.log();
 
-  await install(packageManager, isOnline)
-}
+  await install(packageManager, isOnline);
+};
