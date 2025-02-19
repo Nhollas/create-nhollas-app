@@ -1,5 +1,6 @@
 import { HttpResponse, HttpResponseResolver, http } from "msw"
-import { withJsonBody, server } from "./index"
+import { server } from "./server"
+import { withJsonBody } from "./utils"
 
 describe("withJsonBody", () => {
   const expectedBody = { foo: "bar" }

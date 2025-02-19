@@ -44,13 +44,9 @@ export default function Home() {
                   <span>
                     Get started by editing{" "}
                     <code className="rounded bg-white/10 px-2 py-1 font-mono">
-                      app/page.tsx
+                      app/(routes)/page.tsx
                     </code>
                   </span>
-                </p>
-                <p className="flex items-baseline gap-3">
-                  <span className="text-white/40">2.</span>
-                  <span>Save and see your changes instantly.</span>
                 </p>
               </div>
 

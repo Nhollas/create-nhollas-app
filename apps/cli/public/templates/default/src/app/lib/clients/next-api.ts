@@ -1,14 +1,13 @@
 import { fetchWrapper, IClient } from "."
 
-export const GET_ADDRESS_IO_OTEL_TRACER_NAME = "getAddress.io"
-
-export const GetAddressIOApiClient: IClient = {
+export const NextApiClient: IClient = {
   fetch: fetchWrapper({
-    baseUrl: "https://api.getAddress.io",
+    baseUrl: "/api",
     defaultConfig: {
       headers: {
         "Content-Type": "application/json",
       },
     },
   }),
+  otelServiceName: "Create_Nhollas_App.Backend",
 }

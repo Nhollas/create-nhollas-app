@@ -1,6 +1,7 @@
 "use client"
 
 import FrontendTracer from "src/instrumentation.browser"
+import clientEnv from "@/app/lib/env/client"
 
 export default function FrontendTracerProvider({
   children,
@@ -9,7 +10,7 @@ export default function FrontendTracerProvider({
 }) {
   if (
     typeof window !== "undefined" &&
-    process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL !== "disabled"
+    clientEnv.NEXT_PUBLIC_OTEL_COLLECTOR_URL !== "disabled"
   ) {
     FrontendTracer()
   }

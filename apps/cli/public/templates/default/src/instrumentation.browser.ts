@@ -14,6 +14,7 @@ import {
   WebTracerProvider,
 } from "@opentelemetry/sdk-trace-web"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
+import clientEnv from "./app/lib/env/client"
 
 const FrontendTracer = () => {
   let resource = new Resource({
@@ -29,7 +30,7 @@ const FrontendTracer = () => {
   provider.addSpanProcessor(
     new BatchSpanProcessor(
       new OTLPTraceExporter({
-        url: process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
+        url: clientEnv.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
         headers: {
           "Content-Type": "application/json",
         },

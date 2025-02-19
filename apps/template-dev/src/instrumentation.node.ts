@@ -7,15 +7,16 @@ import {
   SpanProcessor,
 } from "@opentelemetry/sdk-trace-node"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
+import serverEnv from "@/app/lib/env/server"
 
 const isTracingDisabled =
-  process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL === "disabled"
+  serverEnv.NEXT_PUBLIC_OTEL_COLLECTOR_URL === "disabled"
 
 export function defaultSpanProcessor(): SpanProcessor {
   const exporter = new OTLPTraceExporter({
     url: isTracingDisabled
       ? undefined
-      : process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
+      : serverEnv.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
   })
 
   return new BatchSpanProcessor(exporter)

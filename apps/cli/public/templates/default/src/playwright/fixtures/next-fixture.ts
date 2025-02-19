@@ -2,7 +2,7 @@
 /* eslint-disable no-empty-pattern */
 import { test as base, Route } from "@playwright/test"
 
-import { server } from "@/test/server"
+import { server } from "@/test/mock-service-worker/server"
 import { SetupServer } from "msw/node"
 import { setupNextServer } from "../setup"
 import { buildLocalUrl, createTestUtils } from "../utils"

@@ -1,5 +1,6 @@
 export interface IClient {
   fetch: (url: string, options?: RequestInit) => Promise<Response>
+  otelServiceName: string
 }
 
 type FetchWrapperArgs = {

@@ -1,10 +1,5 @@
 import { HttpResponseResolver } from "msw"
-import { setupServer } from "msw/node"
 import { isDeepStrictEqual } from "util"
-
-import { handlers } from "./handlers"
-
-export const server = setupServer(...handlers)
 
 export function withJsonBody<TExpectedBody>(
   expectedBody: TExpectedBody,

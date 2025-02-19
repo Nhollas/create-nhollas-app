@@ -3,6 +3,8 @@ import localFont from "next/font/local"
 
 import "./globals.css"
 import FrontendTracerProvider from "@/app/providers/frontend-tracer-provider"
+import { PropsWithChildren } from "react"
+import QueryClientProvider from "@/app/providers/query-client-provider"
 
 const inter = localFont({ src: "./inter-variable-font.ttf" })
 
@@ -14,18 +16,16 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <FrontendTracerProvider>
-      <html lang="en" className="bg-black">
-        <body className={inter.className}>
-          <main>{children}</main>
-        </body>
-      </html>
+      <QueryClientProvider>
+        <html lang="en" className="bg-black">
+          <body className={inter.className}>
+            <main>{children}</main>
+          </body>
+        </html>
+      </QueryClientProvider>
     </FrontendTracerProvider>
   )
 }
