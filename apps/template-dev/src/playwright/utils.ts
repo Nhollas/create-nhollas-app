@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test"
+import type { Page } from "@playwright/test"
 import { createHomePageObject } from "./page-objects/home"
 
 export const buildLocalUrl = (port: string, path: string = "") =>

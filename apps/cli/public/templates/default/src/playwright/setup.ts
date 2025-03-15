@@ -1,5 +1,5 @@
 import { createServer, Server } from "http"
-import { AddressInfo } from "net"
+import type { AddressInfo } from "net"
 import { parse } from "url"
 
 import next from "next"
