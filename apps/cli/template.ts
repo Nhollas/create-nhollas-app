@@ -127,7 +127,7 @@ export const installTemplate = async ({
       tailwindcss: "^4.0.14",
       typescript: "^5.8.2",
       "typescript-eslint": "^8.26.1",
-      vitest: "^2.1.8",
+      vitest: "^3.0.8",
     },
   }
 
