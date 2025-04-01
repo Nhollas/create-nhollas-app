@@ -8,7 +8,7 @@ app.use(express.json())
 // Example 1: Basic route with no validation
 app.get(
   "/hello",
-  createRouteHandler().handler(async () => {
+  createRouteHandler().handle(async () => {
     return { message: "Hello world!" }
   }),
 )
@@ -22,14 +22,12 @@ const createProductSchema = z.object({
 app.post(
   "/products",
   createRouteHandler()
-    .validator((data: unknown) => {
-      return createProductSchema.parse(data)
-    })
-    .validateQuery((query: unknown) => query)
-    .handler(async ({ body }) => {
+    .validateBody(createProductSchema)
+    .handle(async ({ data }) => {
+      // body is typed as z.infer<typeof createProductSchema>
       return {
         created: true,
-        product: body,
+        product: data,
       }
     }),
 )
@@ -47,34 +45,15 @@ const productQuerySchema = z.object({
 app.put(
   "/products",
   createRouteHandler()
-    .validator((data: unknown) => updateProductSchema.parse(data))
-    .validateQuery((query: unknown) => productQuerySchema.parse(query))
-    .handler(async ({ body, query }) => {
+    .validateBody(updateProductSchema)
+    .validateQuery(productQuerySchema)
+    .handle(async ({ data, queryParams }) => {
       // body is typed as z.infer<typeof updateProductSchema>
       // query is typed as z.infer<typeof productQuerySchema>
       return {
         updated: true,
-        productId: query.id,
-        updates: body,
-      }
-    }),
-)
-
-// Example 4: Using with route parameters
-app.get(
-  "/products/:id",
-  createRouteHandler()
-    .validateQuery((query: unknown) =>
-      z.object({ format: z.string().optional() }).parse(query),
-    )
-    .handler(async ({ req, query }) => {
-      const productId = req.params.id
-      const format = query.format || "json"
-
-      return {
-        id: productId,
-        format,
-        name: "Sample Product",
+        productId: queryParams.id,
+        updates: data,
       }
     }),
 )

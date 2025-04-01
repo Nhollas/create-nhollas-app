@@ -1,136 +1,94 @@
-import { RequestHandler, Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
+import { z, ZodSchema } from "zod"
 
-type AnyFunction = (...args: any[]) => any
-type InferValidator<T extends AnyFunction> = T extends (data: any) => infer R
-  ? R
-  : never
+interface RouteHandler<Body, Query> {
+  validateBody: <T extends ZodSchema>(
+    schema: T,
+  ) => RouteHandler<z.infer<T>, Query>
+  validateQuery: <T extends ZodSchema>(
+    schema: T,
+  ) => RouteHandler<Body, z.infer<T>>
+  handle: (
+    handler: (data: {
+      data: Body
+      queryParams: Query
+      res: Response
+      req: Request
+    }) => Promise<unknown> | unknown,
+  ) => (req: Request, res: Response, next: NextFunction) => void
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createRouteHandler<Body = any, Query = any>(): RouteHandler<
+  Body,
+  Query
+> {
+  let bodySchema: ZodSchema<Body> | undefined
+  let querySchema: ZodSchema<Query> | undefined
 
-export function createRouteHandler() {
-  type BodyValidator = undefined
-  type QueryValidator = undefined
-
-  const builder = {
-    validator<TValidator extends (data: any) => any>(validatorFn: TValidator) {
-      type NewBodyValidator = InferValidator<TValidator>
-      return createChain<NewBodyValidator, QueryValidator>(validatorFn)
+  const routeHandler: RouteHandler<Body, Query> = {
+    validateBody: <T extends ZodSchema>(schema: T) => {
+      bodySchema = schema
+      return routeHandler as RouteHandler<z.infer<T>, Query>
     },
-
-    validateQuery<TValidator extends (data: any) => any>(
-      validatorFn: TValidator,
-    ) {
-      type NewQueryValidator = InferValidator<TValidator>
-      return createChain<BodyValidator, NewQueryValidator>(
-        undefined,
-        validatorFn,
-      )
+    validateQuery: <T extends ZodSchema>(schema: T) => {
+      querySchema = schema
+      return routeHandler as RouteHandler<Body, z.infer<T>>
     },
-
-    handler<TRes = any>(
-      handler: (params: {
-        req: Request
+    handle: (
+      callback: (payload: {
+        data: Body
+        queryParams: Query
         res: Response
-        body: BodyValidator
-        query: QueryValidator
-      }) => Promise<TRes> | TRes,
-    ): RequestHandler {
-      return async (req, res, next) => {
+        req: Request
+      }) => Promise<unknown> | unknown,
+    ) => {
+      return async (req: Request, res: Response, next: NextFunction) => {
         try {
-          let validatedBody: any = req.body
-          let validatedQuery: any = req.query
+          let validatedBody: Body | undefined
+          let queryParams: Query | undefined
 
-          const result = await handler({
-            req,
+          if (bodySchema) {
+            validatedBody = await bodySchema.parseAsync(req.body)
+          }
+
+          if (querySchema) {
+            queryParams = await querySchema.parseAsync(req.query)
+          }
+
+          const result = await callback({
+            data: validatedBody!,
+            queryParams: queryParams!,
             res,
-            body: validatedBody,
-            query: validatedQuery,
+            req,
           })
 
-          if (!res.headersSent) {
-            res.json(result)
-          }
+          res.json(result)
         } catch (error) {
+          if (error instanceof z.ZodError) {
+            if (
+              bodySchema &&
+              error.issues.some(
+                (issue) => issue.path.length > 0 && issue.path[0] !== "query",
+              )
+            ) {
+              return res.status(422).json({ errors: error.errors })
+            }
+
+            if (
+              querySchema &&
+              error.issues.some(
+                (issue) => issue.path.length > 0 && issue.path[0] === "query",
+              )
+            ) {
+              return res.status(400).json({ errors: error.errors })
+            }
+            return res.status(400).json({ errors: error.errors })
+          }
           next(error)
         }
       }
     },
   }
 
-  return builder
-
-  function createChain<TBodyValidator = unknown, TQueryValidator = unknown>(
-    bodyValidatorFn?: AnyFunction,
-    queryValidatorFn?: AnyFunction,
-  ) {
-    return {
-      validator<TValidator extends (data: any) => any>(
-        validatorFn: TValidator,
-      ) {
-        type NewBodyValidator = InferValidator<TValidator>
-        return createChain<NewBodyValidator, TQueryValidator>(
-          validatorFn,
-          queryValidatorFn,
-        )
-      },
-
-      validateQuery<TValidator extends (data: any) => any>(
-        validatorFn: TValidator,
-      ) {
-        type NewQueryValidator = InferValidator<TValidator>
-        return createChain<TBodyValidator, NewQueryValidator>(
-          bodyValidatorFn,
-          validatorFn,
-        )
-      },
-
-      handler<TRes = any>(
-        handler: (params: {
-          req: Request
-          res: Response
-          body: TBodyValidator
-          query: TQueryValidator
-        }) => Promise<TRes> | TRes,
-      ): RequestHandler {
-        return async (req, res, next) => {
-          try {
-            // Validate body if validator was provided
-            let validatedBody: any = undefined
-            if (req.body && bodyValidatorFn) {
-              try {
-                validatedBody = bodyValidatorFn(req.body)
-              } catch (error) {
-                return next(error)
-              }
-            } else if (req.body) {
-              validatedBody = req.body
-            }
-
-            // Validate query if validator was provided
-            let validatedQuery: any = undefined
-            if (req.query && queryValidatorFn) {
-              try {
-                validatedQuery = queryValidatorFn(req.query)
-              } catch (error) {
-                return next(error)
-              }
-            } else if (req.query) {
-              validatedQuery = req.query
-            }
-
-            const result = await handler({
-              req,
-              res,
-              body: validatedBody as TBodyValidator,
-              query: validatedQuery as TQueryValidator,
-            })
-
-            if (!res.headersSent) {
-              res.json(result)
-            }
-          } catch (error) {
-            next(error)
-          }
-        }
-      },
-    }
-  }
+  return routeHandler
 }
