@@ -1,89 +1,85 @@
 import { Request, Response, NextFunction } from "express"
 import { z, ZodSchema } from "zod"
 
-interface RouteHandler<Body, Query> {
+interface RouteHandler<TData, TQuery> {
   validateBody: <T extends ZodSchema>(
     schema: T,
-  ) => RouteHandler<z.infer<T>, Query>
+  ) => RouteHandler<z.infer<T>, TQuery>
   validateQuery: <T extends ZodSchema>(
     schema: T,
-  ) => RouteHandler<Body, z.infer<T>>
+  ) => RouteHandler<TData, z.infer<T>>
   handle: (
     handler: (data: {
-      data: Body
-      queryParams: Query
+      data: TData
+      query: TQuery
       res: Response
       req: Request
     }) => Promise<unknown> | unknown,
   ) => (req: Request, res: Response, next: NextFunction) => void
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createRouteHandler<Body = any, Query = any>(): RouteHandler<
-  Body,
-  Query
+export function createRouteHandler<TData = any, TQuery = any>(): RouteHandler<
+  TData,
+  TQuery
 > {
-  let bodySchema: ZodSchema<Body> | undefined
-  let querySchema: ZodSchema<Query> | undefined
+  let bodySchema: ZodSchema<TData> | undefined
+  let querySchema: ZodSchema<TQuery> | undefined
 
-  const routeHandler: RouteHandler<Body, Query> = {
+  const routeHandler: RouteHandler<TData, TQuery> = {
     validateBody: <T extends ZodSchema>(schema: T) => {
       bodySchema = schema
-      return routeHandler as RouteHandler<z.infer<T>, Query>
+      return routeHandler as RouteHandler<z.infer<T>, TQuery>
     },
     validateQuery: <T extends ZodSchema>(schema: T) => {
       querySchema = schema
-      return routeHandler as RouteHandler<Body, z.infer<T>>
+      return routeHandler as RouteHandler<TData, z.infer<T>>
     },
     handle: (
       callback: (payload: {
-        data: Body
-        queryParams: Query
+        data: TData
+        query: TQuery
         res: Response
         req: Request
       }) => Promise<unknown> | unknown,
     ) => {
       return async (req: Request, res: Response, next: NextFunction) => {
         try {
-          let validatedBody: Body | undefined
-          let queryParams: Query | undefined
+          let data: TData | undefined = undefined
+          let query: TQuery | undefined = undefined
 
           if (bodySchema) {
-            validatedBody = await bodySchema.parseAsync(req.body)
+            try {
+              data = await bodySchema.parseAsync(req.body)
+            } catch (error) {
+              if (error instanceof z.ZodError) {
+                return res.status(422).json({ errors: error.errors })
+              }
+
+              return next()
+            }
           }
 
           if (querySchema) {
-            queryParams = await querySchema.parseAsync(req.query)
+            try {
+              query = await querySchema.parseAsync(req.query)
+            } catch (error) {
+              if (error instanceof z.ZodError) {
+                return res.status(400).json({ errors: error.errors })
+              }
+
+              return next()
+            }
           }
 
           const result = await callback({
-            data: validatedBody!,
-            queryParams: queryParams!,
+            data: data as TData,
+            query: query as TQuery,
             res,
             req,
           })
 
           res.json(result)
         } catch (error) {
-          if (error instanceof z.ZodError) {
-            if (
-              bodySchema &&
-              error.issues.some(
-                (issue) => issue.path.length > 0 && issue.path[0] !== "query",
-              )
-            ) {
-              return res.status(422).json({ errors: error.errors })
-            }
-
-            if (
-              querySchema &&
-              error.issues.some(
-                (issue) => issue.path.length > 0 && issue.path[0] === "query",
-              )
-            ) {
-              return res.status(400).json({ errors: error.errors })
-            }
-            return res.status(400).json({ errors: error.errors })
-          }
           next(error)
         }
       }

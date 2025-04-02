@@ -47,12 +47,12 @@ app.put(
   createRouteHandler()
     .validateBody(updateProductSchema)
     .validateQuery(productQuerySchema)
-    .handle(async ({ data, queryParams }) => {
+    .handle(async ({ data, query }) => {
       // body is typed as z.infer<typeof updateProductSchema>
       // query is typed as z.infer<typeof productQuerySchema>
       return {
         updated: true,
-        productId: queryParams.id,
+        productId: query.id,
         updates: data,
       }
     }),
