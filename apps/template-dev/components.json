@@ -4,9 +4,9 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
-    "config": "tailwind.config.ts",
-    "css": "src/app/globals.css",
-    "baseColor": "stone",
+    "config": "",
+    "css": "src/app/(routes)/globals.css",
+    "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },
@@ -16,5 +16,6 @@
     "ui": "@/app/components/ui",
     "lib": "@/app/lib",
     "hooks": "@/app/hooks"
-  }
+  },
+  "iconLibrary": "lucide"
 }
