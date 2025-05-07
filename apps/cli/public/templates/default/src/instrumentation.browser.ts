@@ -7,39 +7,41 @@ import {
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http"
 import { registerInstrumentations } from "@opentelemetry/instrumentation"
 import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch"
-import { Resource, browserDetector } from "@opentelemetry/resources"
-import { detectResourcesSync } from "@opentelemetry/resources/build/src/detect-resources"
+import { resourceFromAttributes } from "@opentelemetry/resources"
+import { detectResources } from "@opentelemetry/resources/build/src/detect-resources"
 import {
   BatchSpanProcessor,
   WebTracerProvider,
 } from "@opentelemetry/sdk-trace-web"
+import { browserDetector } from "@opentelemetry/opentelemetry-browser-detector"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
 import clientEnv from "./app/lib/env/client"
 
 const FrontendTracer = () => {
-  let resource = new Resource({
+  let resource = resourceFromAttributes({
     [ATTR_SERVICE_NAME]: "Create_Nhollas_App.Frontend",
   })
 
-  const detectedResources = detectResourcesSync({
+  const detectedResources = detectResources({
     detectors: [browserDetector],
   })
   resource = resource.merge(detectedResources)
-  const provider = new WebTracerProvider({ resource })
-
-  provider.addSpanProcessor(
-    new BatchSpanProcessor(
-      new OTLPTraceExporter({
-        url: clientEnv.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
-        headers: {
-          "Content-Type": "application/json",
+  const provider = new WebTracerProvider({
+    resource,
+    spanProcessors: [
+      new BatchSpanProcessor(
+        new OTLPTraceExporter({
+          url: clientEnv.NEXT_PUBLIC_OTEL_COLLECTOR_URL,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }),
+        {
+          scheduledDelayMillis: 500,
         },
-      }),
-      {
-        scheduledDelayMillis: 500,
-      },
-    ),
-  )
+      ),
+    ],
+  })
 
   const contextManager = new ZoneContextManager()
 
