@@ -4,7 +4,7 @@ import { withJsonBody } from "./utils"
 
 describe("withJsonBody", () => {
   const expectedBody = { foo: "bar" }
-  const fakeEndpointUrl = "/api/test"
+  const fakeEndpointUrl = "http://localhost:3000/api/test"
 
   async function sendRequest<T>(body: T) {
     return fetch(fakeEndpointUrl, {

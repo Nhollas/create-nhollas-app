@@ -8,13 +8,13 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
   },
+  define: {
+    "process.env": JSON.stringify({}),
+  },
   root: ".",
   test: {
     globals: true,
-    environment: "jsdom",
-    include: ["src/**/*.test.{ts,tsx}"],
     exclude: ["**/.next/**"],
-    setupFiles: "./vitest.setup.ts",
     coverage: {
       provider: "v8",
       reporter: ["html"],
