@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "test": "npm-run-all test:unit test:e2e",
-    "test:unit": "vitest --reporter=verbose --workspace=vitest.workspace.ts",
+    "test:unit": "vitest run --reporter=verbose --workspace=vitest.workspace.ts",
     "test:e2e": "npm-run-all build playwright",
     "test:coverage": "vitest --coverage",
     "playwright": "playwright test",
