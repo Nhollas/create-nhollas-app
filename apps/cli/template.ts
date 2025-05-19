@@ -68,7 +68,7 @@ export const installTemplate = async ({
       "test:unit":
         "vitest run --reporter=verbose --workspace=vitest.workspace.ts",
       "test:e2e": "npm-run-all build playwright",
-      "test:coverage": "vitest --coverage",
+      "test:coverage": "vitest run --coverage",
       playwright: "playwright test",
       lint: "eslint --fix",
       typecheck: "tsc --project tsconfig.json --pretty --noEmit",
@@ -110,6 +110,7 @@ export const installTemplate = async ({
       "@types/react-dom": "19.1.3",
       "@vitejs/plugin-react": "^4.4.1",
       "@vitest/browser": "^3.1.3",
+      "@vitest/coverage-v8": "^3.1.3",
       dotenv: "^16.5.0",
       eslint: "^9.26.0",
       "eslint-config-next": "^15.3.2",

@@ -15,6 +15,18 @@ export default defineWorkspace([
   },
   {
     extends: "vitest.config.mts",
+    optimizeDeps: {
+      include: [
+        "vitest-browser-react",
+        "lucide-react",
+        "next/image",
+        "next/link",
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge",
+      ],
+    },
     test: {
       setupFiles: "./vitest.browser.setup.ts",
       include: [
