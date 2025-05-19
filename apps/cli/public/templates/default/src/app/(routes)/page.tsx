@@ -110,7 +110,7 @@ export default function Home() {
                   </div>
                   <div className="relative size-9 opacity-80 transition-opacity hover:opacity-100">
                     <Image
-                      src="/tanstack-logo.png"
+                      src="/tanstack-logo.svg"
                       alt="Tanstack"
                       fill
                       className="text-white"

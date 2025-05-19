@@ -1,6 +1,5 @@
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y"
 import vitestPlugin from "eslint-plugin-vitest"
-import testingLibrary from "eslint-plugin-testing-library"
 import playwrightPlugin from "eslint-plugin-playwright"
 import prettierPlugin from "eslint-plugin-prettier"
 import eslint from "@eslint/js"
@@ -43,9 +42,8 @@ export default tseslint.config(
   },
   {
     files: ["**/*.test.{ts,tsx}"],
-    plugins: { "testing-library": testingLibrary, vitest: vitestPlugin },
+    plugins: { vitest: vitestPlugin },
     rules: {
-      ...testingLibrary.configs.react.rules,
       ...vitestPlugin.configs.recommended.rules,
     },
   },
