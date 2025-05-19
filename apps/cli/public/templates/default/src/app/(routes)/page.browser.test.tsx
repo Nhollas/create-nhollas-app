@@ -6,5 +6,5 @@ test("renders name", async () => {
   render(<Page />)
   const headline = page.getByRole("heading", { name: "Create Nhollas App" })
 
-  expect(headline).toBeInTheDocument()
+  await expect.element(headline).toBeVisible()
 })

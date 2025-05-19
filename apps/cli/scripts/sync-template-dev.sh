@@ -5,7 +5,7 @@ SRC_DIR="$1"
 DEST_DIR="$2"
 
 # Blacklist of folders and files to ignore
-BLACKLIST=("node_modules" ".next" ".env.local" "next-env.d.ts" "package.json" "pnpm-lock.yaml" "docker-compose.yaml" "test-results" "playwright-report" "tsconfig.tsbuildinfo")
+BLACKLIST=("node_modules" ".next" ".env.local" "next-env.d.ts" "package.json" "pnpm-lock.yaml" "docker-compose.yaml" "test-results" "playwright-report" "tsconfig.tsbuildinfo" "package-lock.json" "coverage")
 
 # Check if source and destination directories are provided
 if [ -z "$SRC_DIR" ] || [ -z "$DEST_DIR" ]; then
