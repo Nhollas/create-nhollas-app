@@ -12,12 +12,13 @@ export const setupNextServer = async () => {
 
   const server: Server = await new Promise((resolve) => {
     const server = createServer((req, res) => {
-      const parsedUrl = parse(req.url as string, true)
-      handle(req, res, parsedUrl)
+      const parsedUrl = parse(String(req.url), true)
+      void handle(req, res, parsedUrl)
     })
 
     server.listen((error: unknown) => {
-      if (error) throw error
+      if (error)
+        throw new Error(error instanceof Error ? error.message : "Server error")
       resolve(server)
     })
   })

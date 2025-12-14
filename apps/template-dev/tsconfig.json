@@ -14,7 +14,7 @@
     "isolatedModules": true,
     "noUncheckedIndexedAccess": true,
     "allowImportingTsExtensions": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "types": ["vitest/globals"],
     "plugins": [
@@ -31,7 +31,8 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.mts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,10 +1,9 @@
 export interface IClient {
   fetch: (url: string, options?: RequestInit) => Promise<Response>
-  otelServiceName: string
 }
 
 type FetchWrapperArgs = {
-  baseUrl: string | URL | Request
+  baseUrl: string
   defaultConfig?: RequestInit
 }
 

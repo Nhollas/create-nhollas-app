@@ -1,9 +1,9 @@
 import { render } from "vitest-browser-react"
-import { page } from "@vitest/browser/context"
 import Page from "./page.tsx"
+import { page } from "vitest/browser"
 
-test("renders name", async () => {
-  render(<Page />)
+test("renders heading", async () => {
+  await render(<Page />)
   const headline = page.getByRole("heading", { name: "Create Nhollas App" })
 
   await expect.element(headline).toBeVisible()

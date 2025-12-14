@@ -1,16 +1,14 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-empty-pattern */
 import { test as base, type Route } from "@playwright/test"
 
-import { server } from "@/test/mock-service-worker/server"
 import type { SetupServer } from "msw/node"
 import { setupNextServer } from "../setup"
-import { buildLocalUrl, createTestUtils } from "../utils"
+import { server } from "@/test/mock-service-worker/server"
+import { createPageObjects, type PageObjects } from "../page-objects"
+export { expect } from "@playwright/test"
 
 export const test = base.extend<
   {
-    utils: ReturnType<typeof createTestUtils>
-    po: ReturnType<typeof createTestUtils>["po"]
+    po: PageObjects
     serverRequestInterceptor: SetupServer
     interceptBrowserRequest: (
       url: string | RegExp,
@@ -22,15 +20,11 @@ export const test = base.extend<
   }
 >({
   baseURL: async ({ port }, use) => {
-    await use(buildLocalUrl(port))
+    await use(`http://localhost:${port}`)
   },
-  utils: async ({ page }, use) => {
-    const u = createTestUtils({ page })
-
-    await use(u)
-  },
-  po: async ({ utils }, use) => {
-    await use(utils.po)
+  po: async ({ page }, use) => {
+    const po = createPageObjects(page)
+    await use(po)
   },
   port: [
     async ({}, use) => {
@@ -68,5 +62,3 @@ export const test = base.extend<
     { scope: "test" },
   ],
 })
-
-export default test

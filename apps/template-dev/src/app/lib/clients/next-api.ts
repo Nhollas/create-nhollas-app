@@ -9,5 +9,4 @@ export const NextApiClient: IClient = {
       },
     },
   }),
-  otelServiceName: "Create_Nhollas_App.Backend",
 }

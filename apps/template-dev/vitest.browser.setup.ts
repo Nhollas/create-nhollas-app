@@ -1,1 +1,1 @@
-import "./src/app/(routes)/globals.css"
+import "./src/app/globals.css"
