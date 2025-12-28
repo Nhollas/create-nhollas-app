@@ -6,7 +6,7 @@ import { createApp } from "./create-app"
 import { validateNpmName } from "./helpers/validate-pkg"
 import { isFolderEmpty } from "./helpers/is-folder-empty"
 import fs from "fs"
-import { getPkgManager, PackageManager } from "./helpers/get-pkg-manager"
+import { PackageManager } from "./helpers/get-pkg-manager"
 
 let projectPath: string = ""
 
@@ -36,24 +36,10 @@ const program = new Command("create-nhollas-app")
 
     projectPath = name
   })
-  .option(
-    "--use-npm",
-    "Explicitly tell the CLI to bootstrap the application using npm.",
-  )
-  .option(
-    "--use-pnpm",
-    "Explicitly tell the CLI to bootstrap the application using pnpm.",
-  )
   .parse(process.argv)
 
 async function run(): Promise<void> {
-  const options = program.opts()
-
-  const packageManager: PackageManager = !!options.useNpm
-    ? "npm"
-    : !!options.usePnpm
-      ? "pnpm"
-      : getPkgManager()
+  const packageManager: PackageManager = "pnpm"
 
   /**
    * Verify the project dir is empty or doesn't exist

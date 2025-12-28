@@ -3,7 +3,7 @@ import localFont from "next/font/local"
 
 import "./globals.css"
 import { PropsWithChildren } from "react"
-import QueryClientProvider from "@/app/providers/query-client-provider"
+import { QueryClientProvider } from "@/app/providers/query-client-provider"
 
 const inter = localFont({ src: "./inter-variable-font.ttf" })
 

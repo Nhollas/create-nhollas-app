@@ -9,7 +9,6 @@ type FetchWrapperArgs = {
 
 export function fetchWrapper({ baseUrl, defaultConfig }: FetchWrapperArgs) {
   return (url: string, config?: RequestInit) => {
-    const mergedConfig = { ...defaultConfig, ...config }
-    return fetch(baseUrl + url, mergedConfig)
+    return fetch(baseUrl + url, Object.assign(defaultConfig || {}, config))
   }
 }

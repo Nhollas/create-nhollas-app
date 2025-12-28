@@ -7,9 +7,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <div className="relative border-b border-white/10">
-        <div className="absolute inset-0 bg-linear-to-b from-violet-600/10 to-transparent" />
-        <div className="absolute inset-0 rotate-180 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-600/30 via-transparent to-transparent" />
+      <section className="relative border-b border-white/10">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-linear-to-b from-violet-600/10 to-transparent"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 rotate-180 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-600/30 via-transparent to-transparent"
+        />
         <div className="relative mx-auto flex max-w-(--breakpoint-sm) flex-col items-center gap-8 px-5 py-16">
           <div className="space-y-4 text-center">
             <h1 className="text-4xl font-bold tracking-tighter md:text-6xl">
@@ -28,27 +34,30 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Content Section */}
-      <div className="relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-600/30 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-b from-violet-600/10 via-transparent to-transparent" />
+      <section className="relative">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-600/30 via-transparent to-transparent"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-linear-to-b from-violet-600/10 via-transparent to-transparent"
+        />
         <div className="relative mx-auto max-w-(--breakpoint-sm) px-5 py-16">
           <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-xs">
             <div className="space-y-8 p-8">
               {/* Instructions */}
-              <div className="space-y-4">
-                <p className="flex items-baseline gap-3">
-                  <span className="text-white/40">1.</span>
-                  <span>
-                    Get started by editing{" "}
-                    <code className="rounded bg-white/10 px-2 py-1 font-mono">
-                      app/(routes)/page.tsx
-                    </code>
-                  </span>
-                </p>
-              </div>
+              <ol className="space-y-4 list-decimal list-inside marker:text-white/40">
+                <li>
+                  Get started by editing{" "}
+                  <code className="rounded bg-white/10 px-2 py-1 font-mono">
+                    app/page.tsx
+                  </code>
+                </li>
+              </ol>
 
               {/* CTA */}
               <div className="flex justify-center gap-4">
@@ -72,9 +81,9 @@ export default function Home() {
 
               {/* Tech Stack */}
               <div className="border-t border-white/10 pt-8">
-                <p className="mb-8 text-center text-white/60">
+                <h2 className="mb-8 text-center text-white/60">
                   Leveraging industry-leading tools and technologies.
-                </p>
+                </h2>
                 <div className="grid grid-cols-3 items-center justify-items-center gap-8 md:grid-cols-6">
                   <div className="relative size-9 opacity-80 transition-opacity hover:opacity-100">
                     <Image
@@ -129,7 +138,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }
