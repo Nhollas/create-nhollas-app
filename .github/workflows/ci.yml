@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm install --frozen-lockfile
-          pnpm exec playwright install --with-deps
+          pnpm dlx playwright install --with-deps
 
       - name: Build CLI
         run: pnpm run build
