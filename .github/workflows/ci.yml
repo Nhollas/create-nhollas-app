@@ -16,21 +16,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
+          cache: 'pnpm'
+          cache-dependency-path: 'apps/cli/pnpm-lock.yaml'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
         run: |
-          npm ci
-          npx playwright install --with-deps
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps
 
       - name: Build CLI
-        run: npm run build
+        run: pnpm run build
 
       - name: Use CLI to create template
         run: node ./dist/index.js create-nhollas-app
@@ -47,7 +54,7 @@ jobs:
       - name: Install template dependencies and run tests
         run: |
           cd create-nhollas-app
-          npm run validate:test
+          pnpm run validate:test
 
       - name: Deploy to Vercel
         run: |
