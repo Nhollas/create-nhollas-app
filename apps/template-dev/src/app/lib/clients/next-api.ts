@@ -1,4 +1,4 @@
-import { fetchWrapper, IClient } from "."
+import { fetchWrapper, IClient } from "./fetch"
 
 export const NextApiClient: IClient = {
   fetch: fetchWrapper({

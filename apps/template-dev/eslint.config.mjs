@@ -4,8 +4,9 @@ import playwrightPlugin from "eslint-plugin-playwright"
 import eslint from "@eslint/js"
 import tseslint from "typescript-eslint"
 import nextPlugin from "@next/eslint-plugin-next"
+import { defineConfig } from "eslint/config"
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: [
       ".next/**",

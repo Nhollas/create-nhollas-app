@@ -9,7 +9,6 @@ export default defineConfig({
     alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
   },
   root: ".",
-
   define: {
     "process.env": JSON.stringify({}),
   },
@@ -26,7 +25,7 @@ export default defineConfig({
         extends: true,
         test: {
           setupFiles: "./vitest.setup.ts",
-          include: ["src/**/*.server.{test,spec}.ts"],
+          include: ["src/**/*.{test,spec}.ts"],
           name: { label: "server", color: "green" },
           environment: "node",
         },

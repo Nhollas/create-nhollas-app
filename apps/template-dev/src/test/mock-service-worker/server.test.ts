@@ -1,6 +1,6 @@
 import { HttpResponse, HttpResponseResolver, http } from "msw"
 import { server } from "./server"
-import { withJsonBody } from "./utils"
+import { withJsonBody } from "./server"
 
 describe("withJsonBody", () => {
   const expectedBody = { foo: "bar" }
@@ -17,9 +17,9 @@ describe("withJsonBody", () => {
   }
 
   it("should only call the resolver if the request body matches the expected body", async () => {
-    const resolver: HttpResponseResolver = vi.fn(() => {
+    const resolver: HttpResponseResolver = () => {
       return HttpResponse.json()
-    })
+    }
 
     server.use(http.post(fakeEndpointUrl, withJsonBody(expectedBody, resolver)))
 
@@ -29,9 +29,9 @@ describe("withJsonBody", () => {
   })
 
   it("should not call the resolver if the request body does not match the expected body", async () => {
-    const resolver: HttpResponseResolver = vi.fn(() => {
+    const resolver: HttpResponseResolver = () => {
       return HttpResponse.json()
-    })
+    }
 
     const unexpectedBody = { foo: "baz" }
 
