@@ -19,7 +19,7 @@ export function withJsonBody<TExpectedBody>(
     const actualBody = await request.clone().json()
 
     if (!isDeepStrictEqual(actualBody, expectedBody)) {
-      console.error("Request body did not match!", {
+      console.warn("Request body did not match!", {
         expectedBody,
         actualBody,
       })

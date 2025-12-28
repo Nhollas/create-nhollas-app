@@ -55,6 +55,7 @@ export default defineConfig(
     },
     rules: {
       ...vitestPlugin.configs.recommended.rules,
+      "@typescript-eslint/no-unsafe-assignment": "off",
     },
   },
   {
